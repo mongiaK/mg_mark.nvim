@@ -28,7 +28,7 @@ function _M.mark(iword)
 	word_maps[word] = nil
 
 	local group_name = create_highlight_group()
-	local match_id = vim.matchadd(group_name, "\\<" .. word .. "\\>")
+	local match_id = vim.fn.matchadd(group_name, "\\<" .. word .. "\\>")
 	word_maps[word] = {
 		group_name,
 		match_id,
