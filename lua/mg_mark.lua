@@ -1,7 +1,6 @@
 local _M = {}
 local vim = vim
 local word_maps = {}
-local default_configs = {}
 
 local function random_bg_color()
 	local r = math.random(0, 255)
@@ -31,19 +30,19 @@ function _M.mark(iword)
 	local group_name = create_highlight_group()
 	local match_id = vim.fn.matchadd(group_name, "\\<" .. word .. "\\>")
 	word_maps[word] = {
-		group_name,
-		match_id,
+		group_name = group_name,
+		match_id = match_id,
 	}
 end
 
 function _M.clear(item)
 	vim.fn.matchdelete(item.match_id)
-	local cmd = "unhighlight " .. item.group_name
+	local cmd = "highlight " .. item.group_name .. " NONE"
 	vim.cmd(cmd)
 end
 
 function _M.clear_all()
-	for _, item in ipairs(word_maps) do
+	for _, item in pairs(word_maps) do
 		if item and item.match_id then
 			_M.clear(item)
 		end
