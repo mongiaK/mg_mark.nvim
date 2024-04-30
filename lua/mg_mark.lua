@@ -24,8 +24,9 @@ function _M.mark(iword)
 	local word = iword or vim.fn.expand("<cword>")
 	if word_maps[word] and word_maps[word].match_id then
 		_M.clear(word_maps[word])
+		word_maps[word] = nil
+		return
 	end
-	word_maps[word] = nil
 
 	local group_name = create_highlight_group()
 	local match_id = vim.fn.matchadd(group_name, "\\<" .. word .. "\\>")
@@ -43,7 +44,7 @@ end
 
 function _M.clear_all()
 	for _, item in ipairs(word_maps) do
-		if item.match_id then
+		if item and item.match_id then
 			_M.clear(item)
 		end
 	end
